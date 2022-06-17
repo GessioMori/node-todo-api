@@ -12,6 +12,7 @@
       "@errors/*": ["shared/errors/*"],
       "@utils/*": ["utils/*"]
     },
+    "strict": true,
     "resolveJsonModule": true,
     "outDir": "./dist",
     "importHelpers": true,

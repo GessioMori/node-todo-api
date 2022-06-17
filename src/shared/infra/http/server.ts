@@ -1,3 +1,5 @@
-import { a } from "@shared/infra/http/app";
+import { app } from "@shared/infra/http/app";
 
-console.log(a);
+const PORT = process.env.PORT || 3333;
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}.`));
