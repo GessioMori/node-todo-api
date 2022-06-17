@@ -1,5 +1,5 @@
 {
-  "name": "nodejs-todo-api",
+  "name": "node-todo-api",
   "version": "1.0.0",
   "description": "Simple todo API using Typescript",
   "main": "server.js",
