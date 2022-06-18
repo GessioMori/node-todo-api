@@ -7,4 +7,5 @@ export const AppDataSource = new DataSource({
   username: "dev",
   password: "dev",
   database: "todosdb",
+  migrations: ["./src/shared/infra/typeorm/migrations/*.ts"],
 });
