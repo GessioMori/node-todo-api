@@ -19,5 +19,6 @@
         "prettier"
     ],
     "rules": {
+        "no-useless-constructor": "off"
     }
 }

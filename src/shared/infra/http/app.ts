@@ -1,11 +1,12 @@
+import "@shared/containers/main";
 import express from "express";
+import "reflect-metadata";
+import { accountRoutes } from "./routes/accounts.routes";
 
 const app = express();
 
 app.use(express.json());
 
-app.get("/", (request, response) => {
-  return response.json({ message: "Hello world" });
-});
+app.use("/account", accountRoutes);
 
 export { app };

@@ -1,5 +1,5 @@
 import { app } from "@shared/infra/http/app";
-import "reflect-metadata";
+
 import { AppDataSource } from "../typeorm";
 
 const PORT = process.env.PORT || 3333;
