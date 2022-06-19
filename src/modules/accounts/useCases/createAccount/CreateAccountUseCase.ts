@@ -1,6 +1,7 @@
-import { Account } from "@modules/accounts/entities/typeorm/Account";
+import { IAccountResponseDTO } from "@modules/accounts/dtos/IAccountResponseDTO";
 import { IAccountsRepository } from "@modules/accounts/repositories/IAccountsRepository";
 import { AppError } from "@shared/errors/AppError";
+import { hash } from "bcrypt";
 import { inject, injectable } from "tsyringe";
 
 interface IRequest {
@@ -16,19 +17,25 @@ export class CreateAccountUseCase {
     private accountsRepository: IAccountsRepository
   ) {}
 
-  async execute({ email, name, password }: IRequest): Promise<Account> {
+  async execute({
+    email,
+    name,
+    password,
+  }: IRequest): Promise<IAccountResponseDTO> {
     const emailAlreadyExists = await this.accountsRepository.findByEmail(email);
 
     if (emailAlreadyExists) {
       throw new AppError("Email already registered.");
     }
 
+    const hashedPassword = await hash(password, 8);
+
     const account = await this.accountsRepository.createAccount({
       email,
       name,
-      password,
+      password: hashedPassword,
     });
 
-    return account;
+    return { email: account.email, name: account.name };
   }
 }
