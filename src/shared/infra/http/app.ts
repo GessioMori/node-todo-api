@@ -1,9 +1,9 @@
-import "@shared/containers/main";
+import "@shared/containers/";
+import { ErrorHandler } from "@shared/infra/http/errors/ErrorHandler";
+import { accountRoutes } from "@shared/infra/http/routes/accounts.routes";
 import express from "express";
 import "express-async-errors";
 import "reflect-metadata";
-import { ErrorHandler } from "./errors/ErrorHandler";
-import { accountRoutes } from "./routes/accounts.routes";
 
 const app = express();
 
