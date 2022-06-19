@@ -18,7 +18,7 @@ export class Account {
   @CreateDateColumn()
   created_at: Date;
 
-  constructor(props: Omit<Account, "id" & "created_at">, id?: string) {
+  constructor(props: Omit<Account, "id" | "created_at">, id?: string) {
     Object.assign(this, props);
     if (!id) {
       this.id = uuid();
