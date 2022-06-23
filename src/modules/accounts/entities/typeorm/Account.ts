@@ -1,8 +1,9 @@
 import { Column, CreateDateColumn, Entity, PrimaryColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
+import { IAccount } from "../IAccount";
 
 @Entity("accounts")
-export class Account {
+export class Account implements IAccount {
   @PrimaryColumn()
   id: string;
 

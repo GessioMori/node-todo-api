@@ -7,10 +7,11 @@ import {
   PrimaryColumn,
 } from "typeorm";
 import { v4 as uuid } from "uuid";
+import { IToken } from "../IToken";
 import { Account } from "./Account";
 
 @Entity("tokens")
-export class Token {
+export class Token implements IToken {
   @PrimaryColumn()
   id: string;
 

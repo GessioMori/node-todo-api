@@ -1,4 +1,5 @@
 import { Account } from "@modules/accounts/entities/typeorm/Account";
+import { Token } from "@modules/accounts/entities/typeorm/Token";
 import { DataSource } from "typeorm";
 
 export const AppDataSource = new DataSource({
@@ -9,5 +10,5 @@ export const AppDataSource = new DataSource({
   password: "dev",
   database: "todosdb",
   migrations: ["./src/shared/infra/typeorm/migrations/*.ts"],
-  entities: [Account],
+  entities: [Account, Token],
 });

@@ -11,6 +11,6 @@ export class dayJsDateProvider implements IDateProvider {
   }
 
   checkIfPast(date: Date): boolean {
-    return dayjs().isBefore(date);
+    return dayjs().isAfter(date);
   }
 }

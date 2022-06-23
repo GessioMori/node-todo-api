@@ -10,5 +10,5 @@ AppDataSource.initialize()
     app.listen(PORT, () => console.log(`Server running on port ${PORT}.`));
   })
   .catch((err) => {
-    console.error("Error during data Source initialization.", err);
+    console.error("Error during data source initialization.", err);
   });
