@@ -28,7 +28,10 @@ export class Token implements IToken {
   @JoinColumn({ name: "account_id" })
   account: Account;
 
-  constructor(props: Omit<Token, "id" | "created_at">, id?: string) {
+  constructor(
+    props: Omit<Token, "id" | "created_at" | "account">,
+    id?: string
+  ) {
     Object.assign(this, props);
     if (!id) {
       this.id = uuid();
