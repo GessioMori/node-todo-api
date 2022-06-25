@@ -8,6 +8,7 @@
     "paths": {
       "@modules/*": ["modules/*"],
       "@shared/*": ["shared/*"],
+      "@test/*": ["test/*"]
     },
     "resolveJsonModule": true,
     "outDir": "./dist",

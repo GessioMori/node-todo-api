@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { IDateProvider } from "../IDateProvider";
 
-export class dayJsDateProvider implements IDateProvider {
+export class DayJsDateProvider implements IDateProvider {
   getDate(): string {
     return dayjs().format();
   }
