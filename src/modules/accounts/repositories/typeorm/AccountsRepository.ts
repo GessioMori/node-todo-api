@@ -11,12 +11,11 @@ export class AccountsRepository implements IAccountsRepository {
     this.repository = AppDataSource.getRepository(Account);
   }
 
-  async createAccount({
-    email,
-    name,
-    password,
-  }: ICreateAccountDTO): Promise<Account> {
-    const newAccount = this.repository.create({ email, name, password });
+  async createAccount(
+    { email, name, password }: ICreateAccountDTO,
+    id?: string
+  ): Promise<Account> {
+    const newAccount = this.repository.create({ email, name, password, id });
     return await this.repository.save(newAccount);
   }
 
