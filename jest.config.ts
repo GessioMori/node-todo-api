@@ -99,6 +99,7 @@ export default {
       "@modules/*": ["modules/*"],
       "@shared/*": ["shared/*"],
       "@test/*": ["test/*"],
+      "@utils/*": ["utils/*"],
     },
     {
       prefix: "<rootDir>/src/",
