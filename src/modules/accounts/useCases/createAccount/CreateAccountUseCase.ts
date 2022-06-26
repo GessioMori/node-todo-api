@@ -22,6 +22,10 @@ export class CreateAccountUseCase {
     name,
     password,
   }: IRequest): Promise<IAccountResponseDTO> {
+    if (!email || !name || !password) {
+      throw new AppError("You must provide required information.");
+    }
+
     const emailAlreadyExists = await this.accountsRepository.findByEmail(email);
 
     if (emailAlreadyExists) {
