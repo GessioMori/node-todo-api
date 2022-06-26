@@ -33,4 +33,12 @@ export class TokensRepositoryInMemory implements ITokensRepository {
   async deleteByAccountId(account_id: string): Promise<void> {
     this.items = this.items.filter((item) => item.account_id !== account_id);
   }
+
+  async makeTokenExpired(id: string): Promise<void> {
+    const tokenIndex = this.items.findIndex((item) => item.id === id);
+    this.items[tokenIndex] = {
+      ...this.items[tokenIndex],
+      expires_at: new Date("2000-01-01"),
+    };
+  }
 }
