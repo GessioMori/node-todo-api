@@ -31,7 +31,7 @@
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register --poll --inspect --transpile-only --ignore-watch node_modules --respawn src/shared/infra/http/server.ts",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli",
-    "test": "NODE_ENV=test jest --maxWorkers=4"
+    "test": "NODE_ENV=test jest -i"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
