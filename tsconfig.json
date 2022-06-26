@@ -18,5 +18,8 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
+  },
+  "watchOptions": {
+    "synchronousWatchDirectory": true
   }
 }
