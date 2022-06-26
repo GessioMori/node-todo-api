@@ -4,6 +4,7 @@ import { AppError } from "@shared/errors/AppError";
 import { IDateProvider } from "@shared/providers/dateProvider/IDateProvider";
 import { sign } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
+import { validate } from "uuid";
 
 @injectable()
 export class RefreshTokenUseCase {
@@ -13,10 +14,20 @@ export class RefreshTokenUseCase {
   ) {}
 
   async execute(refreshTokenId: string): Promise<IRefreshTokenResponseDTO> {
+    if (!refreshTokenId || !validate(refreshTokenId)) {
+      throw new AppError(
+        "Refresh token not found, please authenticate again.",
+        401
+      );
+    }
+
     const refreshToken = await this.tokensRepository.findById(refreshTokenId);
 
     if (!refreshToken) {
-      throw new AppError("Refresh token not found, please authenticate again.");
+      throw new AppError(
+        "Refresh token not found, please authenticate again.",
+        401
+      );
     }
 
     const isTokenExpired = this.dateProvider.checkIfPast(
