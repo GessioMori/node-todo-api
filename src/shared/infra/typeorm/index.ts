@@ -8,7 +8,7 @@ export const AppDataSource = new DataSource({
   port: 5432,
   username: "dev",
   password: "dev",
-  database: "todosdb",
+  database: process.env.NODE_ENV === "test" ? "todosdb_test" : "todosdb",
   migrations: ["./src/shared/infra/typeorm/migrations/*.ts"],
   entities: [Account, Token],
 });

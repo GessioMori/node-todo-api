@@ -14,6 +14,6 @@ export class CreateAccountController {
       password,
     });
 
-    return response.json(newAccount);
+    return response.status(201).json(newAccount);
   }
 }

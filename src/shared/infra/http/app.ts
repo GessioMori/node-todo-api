@@ -12,6 +12,14 @@ import { todosRoutes } from "./routes/todos.routes";
 dotenv.config();
 
 const app = express();
+/*
+AppDataSource.initialize();
+
+ .then(() => {
+  if (process.env.NODE_ENV === "test") {
+    AppDataSource.runMigrations();
+  }
+}); */
 
 app.use(express.json());
 
