@@ -10,6 +10,10 @@ export class DayJsDateProvider implements IDateProvider {
     return dayjs().add(days, "days").toDate();
   }
 
+  addHoursFromNow(hours: number): Date {
+    return dayjs().add(hours, "hours").toDate();
+  }
+
   checkIfPast(date: Date): boolean {
     return dayjs().isAfter(date);
   }
