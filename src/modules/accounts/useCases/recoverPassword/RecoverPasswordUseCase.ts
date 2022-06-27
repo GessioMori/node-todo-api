@@ -3,8 +3,8 @@ import { IPasswordRecoveryRepository } from "@modules/accounts/repositories/IPas
 import { AppError } from "@shared/errors/AppError";
 import { IDateProvider } from "@shared/providers/dateProvider/IDateProvider";
 import { IEmailProvider } from "@shared/providers/emailProvider/IEmailProvider";
+import { recoverPasswordEmailModel } from "@utils/emailProvider/recoverPasswordEmailModel";
 import { inject, injectable } from "tsyringe";
-import { recoverPasswordEmailModel } from "utils/emailProvider/recoverPasswordEmailModel";
 import validator from "validator";
 
 @injectable()
@@ -20,7 +20,7 @@ export class RecoverPasswordUseCase {
     private emailProvider: IEmailProvider
   ) {}
 
-  async execute(email: string) {
+  async execute(email: string): Promise<string> {
     const isEmailValid = validator.isEmail(email);
 
     const hoursToExpire = 2;
@@ -43,10 +43,12 @@ export class RecoverPasswordUseCase {
         expires_at: this.dateProvider.addHoursFromNow(hoursToExpire),
       });
 
-    this.emailProvider.sendMail(
+    await this.emailProvider.sendMail(
       account.email,
       "Dotos! Password recovery",
       recoverPasswordEmailModel(account.name, passwordRecoveryToken.id)
     );
+
+    return passwordRecoveryToken.id;
   }
 }

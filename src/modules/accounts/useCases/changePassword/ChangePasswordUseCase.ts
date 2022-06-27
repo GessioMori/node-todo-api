@@ -40,10 +40,6 @@ export class ChangePasswordUseCase {
 
     const account = await this.accountsRepository.findById(token.account_id);
 
-    if (!account) {
-      throw new AppError("Account not found.");
-    }
-
     account.password = await hash(newPassword, 8);
 
     await this.accountsRepository.createAccount(account, account.id);
