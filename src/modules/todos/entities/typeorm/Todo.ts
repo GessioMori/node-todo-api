@@ -35,7 +35,9 @@ export class Todo implements ITodo {
   account: Account;
 
   constructor(
-    props: Omit<Todo, "id" | "created_at" | "is_completed"> | Omit<Todo, "id">,
+    props:
+      | Omit<Todo, "id" | "created_at" | "is_completed" | "account">
+      | Omit<Todo, "id">,
     id?: string
   ) {
     Object.assign(this, props);
