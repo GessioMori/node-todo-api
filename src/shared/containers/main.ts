@@ -4,6 +4,8 @@ import { ITokensRepository } from "@modules/accounts/repositories/ITokensReposit
 import { AccountsRepository } from "@modules/accounts/repositories/typeorm/AccountsRepository";
 import { PasswordRecoveryRepository } from "@modules/accounts/repositories/typeorm/PasswordRecoveryRepository";
 import { TokensRepository } from "@modules/accounts/repositories/typeorm/TokensRepository";
+import { ITodosRepository } from "@modules/todos/repositories/ITodosRepository";
+import { TodosRepository } from "@modules/todos/repositories/typeorm/TodosRepository";
 import { container } from "tsyringe";
 
 container.registerSingleton<IAccountsRepository>(
@@ -19,4 +21,9 @@ container.registerSingleton<ITokensRepository>(
 container.registerSingleton<IPasswordRecoveryRepository>(
   "PasswordRecoveryRepository",
   PasswordRecoveryRepository
+);
+
+container.registerSingleton<ITodosRepository>(
+  "TodosRepository",
+  TodosRepository
 );

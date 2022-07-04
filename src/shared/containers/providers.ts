@@ -8,5 +8,5 @@ container.registerSingleton<IDateProvider>("DateProvider", DayJsDateProvider);
 
 container.registerInstance<IEmailProvider>(
   "EmailProvider",
-  new EtherealMailProvider()
+  container.resolve(EtherealMailProvider)
 );
