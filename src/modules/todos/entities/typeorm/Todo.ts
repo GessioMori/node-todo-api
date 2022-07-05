@@ -45,6 +45,8 @@ export class Todo implements ITodo {
     if (!id) {
       this.id = uuid();
       this.is_completed = false;
+    } else {
+      this.id = id;
     }
   }
 }

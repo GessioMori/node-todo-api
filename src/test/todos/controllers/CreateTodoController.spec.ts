@@ -33,7 +33,7 @@ describe("Create todo controller", () => {
 
   it("Should be able to create a new todo", async () => {
     const todoResponse = await request(app)
-      .post("/todos/create")
+      .post("/todos/")
       .set("Authorization", "Bearer " + loginResponse.body.accessToken)
       .send({
         content: "Test todo",
@@ -46,7 +46,7 @@ describe("Create todo controller", () => {
 
   it("Should be able to create a todo only with content", async () => {
     const todoResponse = await request(app)
-      .post("/todos/create")
+      .post("/todos/")
       .set("Authorization", "Bearer " + loginResponse.body.accessToken)
       .send({
         content: "Test todo 2",
@@ -56,7 +56,7 @@ describe("Create todo controller", () => {
 
   it("Should not be able to create a todo with wrong credentials", async () => {
     const todoResponse = await request(app)
-      .post("/todos/create")
+      .post("/todos/")
       .set(
         "Authorization",
         "Bearer " + loginResponse.body.accessToken + "wrong"
