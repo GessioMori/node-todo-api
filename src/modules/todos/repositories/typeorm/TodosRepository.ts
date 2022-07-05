@@ -28,4 +28,21 @@ export class TodosRepository implements ITodosRepository {
 
     return newTodo;
   }
+
+  async findByAccountId(account_id: string): Promise<ITodo[]> {
+    const todos = await this.repository.findBy({
+      account_id,
+    });
+
+    return todos;
+  }
+
+  async findById(id: string): Promise<ITodo> {
+    const todo = await this.repository.findOne({ where: { id } });
+    return todo;
+  }
+
+  async deleteById(id: string): Promise<void> {
+    await this.repository.delete(id);
+  }
 }
