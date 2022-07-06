@@ -1,0 +1,11 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Dotos! documentation",
+    "description": "This is a simple todo API.",
+    "version": "1.0.0",
+    "contact": {
+      "email": "gessiomorin@gmail.com"
+    }
+  }
+}
