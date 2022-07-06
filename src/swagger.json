@@ -7,5 +7,53 @@
     "contact": {
       "email": "gessiomorin@gmail.com"
     }
+  },
+  "tags": [
+    {
+      "name": "Account",
+      "description": "Account creation and management"
+    }
+  ],
+  "paths": {
+    "/account": {
+      "post": {
+        "tags": ["Account"],
+        "summary": "Account creation",
+        "description": "Creates an account using email, name and password.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "John Doe",
+                  "email": "john@email.com",
+                  "password": "pswd123"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Accounted created."
+          },
+          "400": {
+            "description": "Email already registered or some information is missing."
+          }
+        }
+      }
+    }
   }
 }
