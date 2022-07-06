@@ -21,7 +21,7 @@ export class ChangePasswordUseCase {
     newPassword: string
   ): Promise<void> {
     if (!passwordRecoveryToken || !validate(passwordRecoveryToken)) {
-      throw new AppError("Invalid token.", 403);
+      throw new AppError("Invalid token.", 401);
     }
 
     const token = await this.passwordRecoveryRepository.findById(
@@ -29,13 +29,13 @@ export class ChangePasswordUseCase {
     );
 
     if (!token) {
-      throw new AppError("Invalid token.", 403);
+      throw new AppError("Invalid token.", 401);
     }
 
     const isTokenExpired = this.dateProvider.checkIfPast(token.expires_at);
 
     if (isTokenExpired) {
-      throw new AppError("Token expired.", 401);
+      throw new AppError("Token expired.", 403);
     }
 
     const account = await this.accountsRepository.findById(token.account_id);

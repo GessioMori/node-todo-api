@@ -26,7 +26,7 @@ export class RecoverPasswordUseCase {
     const hoursToExpire = 2;
 
     if (!isEmailValid) {
-      throw new AppError("Invalid email.");
+      throw new AppError("Email not found.");
     }
 
     const account = await this.accountsRepository.findByEmail(email);
