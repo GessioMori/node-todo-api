@@ -17,11 +17,11 @@ export class DeleteTodoUseCase {
     const todo = await this.todosRepository.findById(id);
 
     if (!todo) {
-      throw new AppError("Todo not found.");
+      throw new AppError("Todo not found.", 404);
     }
 
     if (todo.account_id !== account_id) {
-      throw new AppError("Not allowed");
+      throw new AppError("Not allowed.");
     }
 
     await this.todosRepository.deleteById(id);

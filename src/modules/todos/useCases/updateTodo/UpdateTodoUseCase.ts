@@ -26,7 +26,7 @@ export class UpdateTodoUseCase {
     }
 
     if (todo.account_id !== account_id) {
-      throw new AppError("Not allowed");
+      throw new AppError("Not allowed.");
     }
 
     if (content) {
