@@ -1,7 +1,7 @@
 export interface ITodo {
   id: string;
 
-  account_id: string;
+  account_id?: string;
 
   content: string;
 

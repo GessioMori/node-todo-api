@@ -10,6 +10,9 @@ export class GetTodosUseCase {
 
   async execute(account_id: string): Promise<ITodo[]> {
     const todos = await this.todosRespository.findByAccountId(account_id);
+    todos.forEach((todo) => {
+      delete todo.account_id;
+    });
     return todos;
   }
 }

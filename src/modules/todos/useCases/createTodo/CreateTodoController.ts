@@ -16,6 +16,6 @@ export class CreateTodoController {
       due_to,
     });
 
-    return response.json(newTodo).status(201);
+    return response.status(201).json(newTodo);
   }
 }
