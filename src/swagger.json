@@ -392,6 +392,96 @@
           }
         }
       }
+    },
+    "/todos/{id}": {
+      "get": {
+        "tags": ["Todos"],
+        "summary": "Get an unique todo.",
+        "description": "Get a todo using its id.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Todo's ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Todo was received.",
+            "content": {
+              "application/json": {
+                "type": "object",
+                "schema": {
+                  "$ref": "#/definitions/todo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid uuid was sent.",
+            "content": {
+              "application/json": {
+                "type": "object",
+                "example": {
+                  "message": "Invalid uuid."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token not received, expired or invalid.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Token not received": {
+                    "value": {
+                      "message": "Token not received."
+                    }
+                  },
+                  "Token expired": {
+                    "value": {
+                      "message": "Expired token."
+                    }
+                  },
+                  "Invalid token": {
+                    "value": {
+                      "message": "Invalid token."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Account is not the owner of the todo.",
+            "content": {
+              "application/json": {
+                "type": "object",
+                "example": {
+                  "message": "Not allowed."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "A todo with that id was not found.",
+            "content": {
+              "application/json": {
+                "type": "object",
+                "example": {
+                  "message": "Todo not found."
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {

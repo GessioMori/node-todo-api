@@ -22,8 +22,10 @@ export class GetTodoUseCase {
     }
 
     if (todo.account_id !== account_id) {
-      throw new AppError("Not allowed.", 401);
+      throw new AppError("Not allowed.", 403);
     }
+
+    delete todo.account_id;
 
     return todo;
   }
