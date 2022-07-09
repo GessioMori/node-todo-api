@@ -11,6 +11,6 @@ export class DeleteTodoController {
 
     await deleteTodoUseCase.execute(todo_id, account_id);
 
-    return response.status(204).send();
+    return response.status(204).json({ message: "Todo was deleted." });
   }
 }
