@@ -88,7 +88,7 @@ describe("Change password use case", () => {
         recoverToken + "wrong",
         "testpassword2"
       );
-    }).rejects.toEqual(new AppError("Invalid token.", 403));
+    }).rejects.toEqual(new AppError("Invalid token.", 401));
   });
 
   it("Should not be able to change password with a unregistered token.", () => {
@@ -97,13 +97,13 @@ describe("Change password use case", () => {
         "197c630a-708e-42b0-8bfb-8c664f520802",
         "testpassword2"
       );
-    }).rejects.toEqual(new AppError("Invalid token.", 403));
+    }).rejects.toEqual(new AppError("Invalid token.", 401));
   });
 
   it("Should not be able to change password if token is expired", () => {
     expect(async () => {
       await passwordRecoveryRepository.makeTokenExpired(recoverToken);
       await changePasswordUseCase.execute(recoverToken, "testpassword2");
-    }).rejects.toEqual(new AppError("Token expired.", 401));
+    }).rejects.toEqual(new AppError("Token expired.", 403));
   });
 });

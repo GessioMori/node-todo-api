@@ -1,12 +1,12 @@
 import "reflect-metadata";
 
 import { ICreateTodoDTO } from "@modules/todos/dtos/ICreateTodoDTO";
-import { ITodo } from "@modules/todos/entities/ITodo";
 import { ITodosRepository } from "@modules/todos/repositories/ITodosRepository";
 import { CreateTodoUseCase } from "@modules/todos/useCases/createTodo/CreateTodoUseCase";
 import { UpdateTodoUseCase } from "@modules/todos/useCases/updateTodo/UpdateTodoUseCase";
 import { AppError } from "@shared/errors/AppError";
 import { TodosRepositoryInMemory } from "@test/inMemoryRepositories/TodosRepositoryInMemory";
+import { mappedTodo } from "@utils/mappers/todoMapper";
 
 describe("Update todo use case", () => {
   let todosRepository: ITodosRepository;
@@ -15,7 +15,7 @@ describe("Update todo use case", () => {
 
   let todoData: ICreateTodoDTO;
 
-  let todo: ITodo;
+  let todo: mappedTodo;
 
   let updateTodoUseCase: UpdateTodoUseCase;
 

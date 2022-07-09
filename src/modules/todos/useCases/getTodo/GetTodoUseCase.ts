@@ -10,7 +10,7 @@ export class GetTodoUseCase {
     @inject("TodosRepository") private todosRepository: ITodosRepository
   ) {}
 
-  async execute(id: string, account_id: string): Promise<mappedTodo | void> {
+  async execute(id: string, account_id: string): Promise<mappedTodo> {
     if (!validate(id) || !validate(account_id)) {
       throw new AppError("Invalid uuid.");
     }

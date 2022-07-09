@@ -1,12 +1,12 @@
 import "reflect-metadata";
 
 import { ICreateTodoDTO } from "@modules/todos/dtos/ICreateTodoDTO";
-import { ITodo } from "@modules/todos/entities/ITodo";
 import { ITodosRepository } from "@modules/todos/repositories/ITodosRepository";
 import { CreateTodoUseCase } from "@modules/todos/useCases/createTodo/CreateTodoUseCase";
 import { GetTodoUseCase } from "@modules/todos/useCases/getTodo/GetTodoUseCase";
 import { AppError } from "@shared/errors/AppError";
 import { TodosRepositoryInMemory } from "@test/inMemoryRepositories/TodosRepositoryInMemory";
+import { mappedTodo } from "@utils/mappers/todoMapper";
 
 describe("Get todo use case", () => {
   let todosRepository: ITodosRepository;
@@ -15,7 +15,7 @@ describe("Get todo use case", () => {
 
   let todoData: ICreateTodoDTO;
 
-  let todo: ITodo;
+  let todo: mappedTodo;
 
   let getTodoUseCase: GetTodoUseCase;
 
@@ -39,7 +39,8 @@ describe("Get todo use case", () => {
       todoData.account_id
     );
 
-    expect(todoResponse).toMatchObject(todoData);
+    expect(todoResponse).toHaveProperty("id");
+    expect(todoResponse.content).toEqual(todoData.content);
   });
 
   it("Should not be able to get a todo with wrong credentials", () => {

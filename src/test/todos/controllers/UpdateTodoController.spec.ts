@@ -53,7 +53,7 @@ describe("Update todo controller", () => {
 
   it("Should be able to change a todo content.", async () => {
     await request(app)
-      .post("/todos/" + todoCreationResponse.body.id)
+      .patch("/todos/" + todoCreationResponse.body.id)
       .set("Authorization", "Bearer " + loginResponse1.body.accessToken)
       .send({
         content: "Updated todo 1",
@@ -69,7 +69,7 @@ describe("Update todo controller", () => {
 
   it("Should be able to change a todo completion.", async () => {
     await request(app)
-      .post("/todos/" + todoCreationResponse.body.id)
+      .patch("/todos/" + todoCreationResponse.body.id)
       .set("Authorization", "Bearer " + loginResponse1.body.accessToken)
       .send({
         is_completed: false,
@@ -85,7 +85,7 @@ describe("Update todo controller", () => {
 
   it("Should be able to change a todo due to.", async () => {
     await request(app)
-      .post("/todos/" + todoCreationResponse.body.id)
+      .patch("/todos/" + todoCreationResponse.body.id)
       .set("Authorization", "Bearer " + loginResponse1.body.accessToken)
       .send({
         due_to: new Date("2022-07-06T12:48:47.567Z"),
@@ -101,7 +101,7 @@ describe("Update todo controller", () => {
 
   it("Should not be able to update a todo if the user is not the owner.", async () => {
     const todoResponse = await request(app)
-      .post("/todos/" + todoCreationResponse.body.id)
+      .patch("/todos/" + todoCreationResponse.body.id)
       .set("Authorization", "Bearer " + loginResponse2.body.accessToken)
       .send({
         content: "Wrong!",

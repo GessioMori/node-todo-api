@@ -10,6 +10,11 @@ type originalTodo = {
 export type mappedTodo = Omit<originalTodo, "account_id">;
 
 export function todoMapper(todo: originalTodo): mappedTodo {
-  delete todo.account_id;
-  return todo;
+  return {
+    id: todo.id,
+    content: todo.content,
+    created_at: todo.created_at,
+    is_completed: todo.is_completed,
+    due_to: todo.due_to,
+  };
 }
