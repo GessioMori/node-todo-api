@@ -1,7 +1,7 @@
 import { ICreateTodoDTO } from "@modules/todos/dtos/ICreateTodoDTO";
-import { ITodo } from "@modules/todos/entities/ITodo";
 import { ITodosRepository } from "@modules/todos/repositories/ITodosRepository";
 import { AppError } from "@shared/errors/AppError";
+import { mappedTodo, todoMapper } from "@utils/mappers/todoMapper";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -15,7 +15,7 @@ export class CreateTodoUseCase {
     content,
     is_completed,
     due_to,
-  }: ICreateTodoDTO): Promise<ITodo> {
+  }: ICreateTodoDTO): Promise<mappedTodo> {
     if (!content) {
       throw new AppError("Todo content is required.");
     }
@@ -27,8 +27,6 @@ export class CreateTodoUseCase {
       due_to,
     });
 
-    delete newTodo.account_id;
-
-    return newTodo;
+    return todoMapper(newTodo);
   }
 }

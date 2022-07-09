@@ -1,7 +1,7 @@
 import { IUpdateTodoDTO } from "@modules/todos/dtos/IUpdateTodoDTO";
-import { ITodo } from "@modules/todos/entities/ITodo";
 import { ITodosRepository } from "@modules/todos/repositories/ITodosRepository";
 import { AppError } from "@shared/errors/AppError";
+import { mappedTodo, todoMapper } from "@utils/mappers/todoMapper";
 import { inject, injectable } from "tsyringe";
 import { validate } from "uuid";
 
@@ -14,7 +14,7 @@ export class UpdateTodoUseCase {
   async execute(
     { id, content, due_to, is_completed }: IUpdateTodoDTO,
     account_id: string
-  ): Promise<ITodo> {
+  ): Promise<mappedTodo> {
     if (!validate(id) || !validate(account_id)) {
       throw new AppError("Invalid uuid.");
     }
@@ -41,6 +41,6 @@ export class UpdateTodoUseCase {
 
     const newTodo = await this.todosRepository.createTodo(todo, todo.id);
 
-    return newTodo;
+    return todoMapper(newTodo);
   }
 }

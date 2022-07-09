@@ -1,5 +1,5 @@
-import { ITodo } from "@modules/todos/entities/ITodo";
 import { ITodosRepository } from "@modules/todos/repositories/ITodosRepository";
+import { mappedTodo, todoMapper } from "@utils/mappers/todoMapper";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -8,11 +8,9 @@ export class GetTodosUseCase {
     @inject("TodosRepository") private todosRespository: ITodosRepository
   ) {}
 
-  async execute(account_id: string): Promise<ITodo[]> {
+  async execute(account_id: string): Promise<mappedTodo[]> {
     const todos = await this.todosRespository.findByAccountId(account_id);
-    todos.forEach((todo) => {
-      delete todo.account_id;
-    });
-    return todos;
+
+    return todos.map((todo) => todoMapper(todo));
   }
 }

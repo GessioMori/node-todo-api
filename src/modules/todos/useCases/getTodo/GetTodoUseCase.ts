@@ -1,6 +1,6 @@
-import { ITodo } from "@modules/todos/entities/ITodo";
 import { ITodosRepository } from "@modules/todos/repositories/ITodosRepository";
 import { AppError } from "@shared/errors/AppError";
+import { mappedTodo, todoMapper } from "@utils/mappers/todoMapper";
 import { inject, injectable } from "tsyringe";
 import { validate } from "uuid";
 
@@ -10,7 +10,7 @@ export class GetTodoUseCase {
     @inject("TodosRepository") private todosRepository: ITodosRepository
   ) {}
 
-  async execute(id: string, account_id: string): Promise<ITodo | void> {
+  async execute(id: string, account_id: string): Promise<mappedTodo | void> {
     if (!validate(id) || !validate(account_id)) {
       throw new AppError("Invalid uuid.");
     }
@@ -25,8 +25,6 @@ export class GetTodoUseCase {
       throw new AppError("Not allowed.", 403);
     }
 
-    delete todo.account_id;
-
-    return todo;
+    return todoMapper(todo);
   }
 }
