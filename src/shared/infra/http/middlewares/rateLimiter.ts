@@ -3,20 +3,24 @@ import { NextFunction, Request, Response } from "express";
 import { RateLimiterRedis } from "rate-limiter-flexible";
 import * as redis from "redis";
 
-const redisClient = redis.createClient({
-  legacyMode: true,
-});
+let limiter: RateLimiterRedis;
 
-redisClient.connect();
+export function createRateLimiter() {
+  const redisClient = redis.createClient({
+    legacyMode: true,
+  });
 
-redisClient.on("error", (err) => console.log("Redis Client Error", err));
+  redisClient.connect();
 
-const limiter = new RateLimiterRedis({
-  storeClient: redisClient,
-  keyPrefix: "rateLimiter",
-  points: 5,
-  duration: 5,
-});
+  redisClient.on("error", (err) => console.log("Redis Client Error", err));
+
+  limiter = new RateLimiterRedis({
+    storeClient: redisClient,
+    keyPrefix: "rateLimiter",
+    points: 5,
+    duration: 5,
+  });
+}
 
 export async function rateLimiter(
   request: Request,
@@ -25,7 +29,6 @@ export async function rateLimiter(
 ): Promise<void> {
   try {
     await limiter.consume(request.ip);
-
     return next();
   } catch (err) {
     throw new AppError("Too many requests.", 429);

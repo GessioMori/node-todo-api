@@ -9,7 +9,10 @@ import swaggerFile from "../../../swagger.json";
 import "@shared/containers/";
 
 import { ErrorHandler } from "@shared/infra/http/errors/ErrorHandler";
-import { rateLimiter } from "@shared/infra/http/middlewares/rateLimiter";
+import {
+  createRateLimiter,
+  rateLimiter,
+} from "@shared/infra/http/middlewares/rateLimiter";
 import { accountRoutes } from "@shared/infra/http/routes/accounts.routes";
 import { todosRoutes } from "@shared/infra/http/routes/todos.routes";
 
@@ -18,6 +21,7 @@ dotenv.config();
 const app = express();
 
 if (process.env.NODE_ENV !== "test") {
+  createRateLimiter();
   app.use(rateLimiter);
 }
 
