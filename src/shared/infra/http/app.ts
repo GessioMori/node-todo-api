@@ -1,4 +1,3 @@
-import "@shared/containers/";
 import "express-async-errors";
 import "reflect-metadata";
 
@@ -6,6 +5,8 @@ import dotenv from "dotenv";
 import express from "express";
 import swagger from "swagger-ui-express";
 import swaggerFile from "../../../swagger.json";
+
+import "@shared/containers/";
 
 import { ErrorHandler } from "@shared/infra/http/errors/ErrorHandler";
 import { rateLimiter } from "@shared/infra/http/middlewares/rateLimiter";

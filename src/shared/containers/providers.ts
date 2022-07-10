@@ -1,12 +1,18 @@
+import dotenv from "dotenv";
+
 import { IDateProvider } from "@shared/providers/dateProvider/IDateProvider";
 import { DayJsDateProvider } from "@shared/providers/dateProvider/implementations/DayJsDateProvider";
 import { IEmailProvider } from "@shared/providers/emailProvider/IEmailProvider";
 import { EtherealMailProvider } from "@shared/providers/emailProvider/implementations/EtherealMailProvider";
 import { container } from "tsyringe";
 
+dotenv.config();
+
 container.registerSingleton<IDateProvider>("DateProvider", DayJsDateProvider);
 
 container.registerInstance<IEmailProvider>(
   "EmailProvider",
-  container.resolve(EtherealMailProvider)
+  process.env.ENV === "production"
+    ? container.resolve(EtherealMailProvider)
+    : container.resolve(EtherealMailProvider)
 );
