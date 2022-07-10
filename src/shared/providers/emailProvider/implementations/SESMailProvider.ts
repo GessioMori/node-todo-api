@@ -4,7 +4,7 @@ import { injectable } from "tsyringe";
 import { IEmailProvider } from "../IEmailProvider";
 
 @injectable()
-export class EtherealMailProvider implements IEmailProvider {
+export class SESMailProvider implements IEmailProvider {
   private client: Transporter;
 
   constructor() {

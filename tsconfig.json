@@ -5,6 +5,7 @@
     "emitDecoratorMetadata": true,
     "module": "commonjs",
     "baseUrl": "./src",
+    "outDir":"./dist",
     "paths": {
       "@modules/*": ["modules/*"],
       "@shared/*": ["shared/*"],
@@ -12,7 +13,6 @@
       "@utils/*": ["utils/*"]
     },
     "resolveJsonModule": true,
-    "outDir": "./dist",
     "importHelpers": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
