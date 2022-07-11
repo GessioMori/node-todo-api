@@ -1,17 +1,15 @@
-FROM node:16
+FROM node:lts-alpine3.16 as base
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package.json ./
 
-# For development:
-RUN npm install
-
-# For production:
-# RUN npm ci --only=production
+RUN yarn
 
 COPY . .
 
 EXPOSE 3333
 
-CMD ["npm", "run", "dev"]
+RUN yarn build
+
+CMD ["yarn", "start"]

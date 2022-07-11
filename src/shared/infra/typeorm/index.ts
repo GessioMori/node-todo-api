@@ -1,16 +1,23 @@
+import dotenv from "dotenv";
+
 import { Account } from "@modules/accounts/entities/typeorm/Account";
 import { PasswordRecovery } from "@modules/accounts/entities/typeorm/PasswordRecovery";
 import { Token } from "@modules/accounts/entities/typeorm/Token";
 import { Todo } from "@modules/todos/entities/typeorm/Todo";
 import { DataSource } from "typeorm";
 
+dotenv.config();
+
 export const AppDataSource = new DataSource({
   type: "postgres",
-  host: "localhost",
-  port: 5432,
-  username: "dev",
-  password: "dev",
-  database: process.env.NODE_ENV === "test" ? "todosdb_test" : "todosdb",
-  migrations: ["./src/shared/infra/typeorm/migrations/*.ts"],
+  host: process.env.PG_HOST,
+  port: Number(process.env.PORT),
+  username: "dotosdb",
+  password: process.env.PG_PASSWORD,
+  database: process.env.NODE_ENV === "test" ? "dotosdb_test" : "dotosdb",
+  migrations:
+    process.env.NODE_ENV === "production"
+      ? ["./dist/shared/infra/typeorm/migrations/*.js"]
+      : ["./src/shared/infra/typeorm/migrations/*.ts"],
   entities: [Account, Token, PasswordRecovery, Todo],
 });

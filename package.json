@@ -45,8 +45,10 @@
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/shared/infra/http/server.ts",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli",
-    "test": "NODE_ENV=test jest -i  --detectOpenHandles",
-    "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files"
+    "test": "NODE_ENV='test' jest -i  --detectOpenHandles",
+    "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
+    "start": "node dist/shared/infra/http/server.js",
+    "migrate": "node_modules/.bin/typeorm migration:run -d ./dist/shared/infra/typeorm/index.js"
   },
   "dependencies": {
     "aws-sdk": "^2.1171.0",

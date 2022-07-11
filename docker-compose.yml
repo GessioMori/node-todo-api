@@ -6,17 +6,18 @@ services:
     container_name: todos-pg-database
     restart: always
     ports:
-      - 5432:5432
+      - 5984:5984
     environment:
-      - POSTGRES_USER=dev
-      - POSTGRES_PASSWORD=dev
-      - POSTGRES_DB=todosdb
+      - POSTGRES_USER=dotosdb
+      - POSTGRES_PASSWORD=E1A731033BC08FDB1CC0BFCDD
+      - POSTGRES_DB=dotosdb
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - pgdata:/data/postgres
     network_mode: host
 
   redis:
     image: redis:alpine
+    restart: always
     ports:
       - 6379:6379
 

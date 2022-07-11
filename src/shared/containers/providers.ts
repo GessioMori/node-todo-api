@@ -13,7 +13,7 @@ container.registerSingleton<IDateProvider>("DateProvider", DayJsDateProvider);
 
 container.registerInstance<IEmailProvider>(
   "EmailProvider",
-  process.env.ENV === "production"
+  process.env.NODE_ENV === "production"
     ? container.resolve(SESMailProvider)
     : container.resolve(EtherealMailProvider)
 );
