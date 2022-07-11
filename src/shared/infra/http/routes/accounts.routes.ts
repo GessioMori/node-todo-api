@@ -18,5 +18,8 @@ accountRoutes.post("/login", loginController.handle);
 accountRoutes.post("/refresh", refreshTokenController.handle);
 accountRoutes.post("/recover-password", recoverPasswordController.handle);
 accountRoutes.post("/change-password/:token", changePasswordController.handle);
+accountRoutes.get("/tester", (request, response) => {
+  return response.json({ message: "Server is up!" });
+});
 
 export { accountRoutes };

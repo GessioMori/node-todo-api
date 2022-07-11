@@ -19,8 +19,5 @@ todosRoutes.get("/", authenticate, getTodosController.handle);
 todosRoutes.get("/:id", authenticate, getTodoController.handle);
 todosRoutes.patch("/:id", authenticate, updateTodoController.handle);
 todosRoutes.delete("/:id", authenticate, deleteTodoController.handle);
-todosRoutes.get("/tester", (request, response) => {
-  return response.json({ message: "Server is up!" });
-});
 
 export { todosRoutes };
