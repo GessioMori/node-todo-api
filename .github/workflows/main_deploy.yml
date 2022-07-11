@@ -31,12 +31,5 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }} 
-          script: |
-            cd ~/app
-            docker stop node-todo-api
-            docker rm node-todo-api
-            docker rmi node-todo-api_app
-            docker system prune -f
-            docker compose up -d
-            docker exec -it node-todo-api node_modules/.bin/typeorm migration:run -d dist/shared/infra/typeorm/index.js
+          script: whoami
             
