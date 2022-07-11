@@ -38,4 +38,4 @@ jobs:
             docker rmi node-todo-api_app
             docker system prune -f
             docker compose up -d
-            docker exec -it node-todo-api node_modules/.bin/typeorm migration:run -d dist/shared/infra/typeorm/index.js
+            docker exec -i node-todo-api node_modules/.bin/typeorm migration:run -d dist/shared/infra/typeorm/index.js
