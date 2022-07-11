@@ -32,6 +32,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            cp .env app/.env
             cd ~/app
             docker stop node-todo-api
             docker rm node-todo-api
