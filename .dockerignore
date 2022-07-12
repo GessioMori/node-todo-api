@@ -4,3 +4,8 @@ coverage/
 .github/
 .git
 .vscode
+Dockerfile*
+docker-compose*
+.dockerignore
+README.md
+LICENSE
