@@ -19,24 +19,19 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           source: "."
-          target: "~/app"
+          target: "~/dotos"
 
-      - name: Update API
+      - name: Test API command
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cp .env app/.env
-            cd ~/app
-            docker stop node-todo-api
-            docker rm node-todo-api
-            docker rmi app_app
-            docker system prune -f
-            docker compose --profile prod up -d
-            docker exec -i node-todo-api node_modules/.bin/typeorm migration:run -d dist/shared/infra/typeorm/index.js
+            whoami
