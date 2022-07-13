@@ -6,11 +6,9 @@ COPY package.json ./
 
 RUN yarn
 
-COPY . .
-
 RUN yarn build
 
-COPY . .
+COPY . ./
 
 EXPOSE 3333
 
