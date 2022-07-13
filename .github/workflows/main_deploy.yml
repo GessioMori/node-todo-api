@@ -34,8 +34,8 @@ jobs:
           script: |
             cp .env app/.env
             cd ~/app
-            docker stop node-todo-api-prod
-            docker rm node-todo-api-prod
+            docker stop node-todo-api
+            docker rm node-todo-api
             docker rmi app_app
             docker system prune -f
             docker compose --profile prod up -d
