@@ -6,10 +6,8 @@ COPY package.json ./
 
 RUN yarn
 
-RUN yarn build
-
-COPY . ./
+COPY . .
 
 EXPOSE 3333
 
-CMD ["yarn", "start"]
+CMD ["sh", "-c", "yarn build && yarn start"]
