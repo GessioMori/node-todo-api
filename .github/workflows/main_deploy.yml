@@ -32,7 +32,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd ~/dotos/dotos
+            cd ~/dotos
             yarn
             yarn build
             ./node_modules/.bin/typeorm migration:run -d ./dist/shared/infra/typeorm/index.js
