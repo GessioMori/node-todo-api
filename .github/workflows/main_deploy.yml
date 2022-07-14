@@ -32,4 +32,8 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            whoami
+            cd ~/dotos/dotos
+            yarn
+            yarn build
+            ./node_modules/.bin/typeorm migration:run -d ./dist/shared/infra/typeorm/index.js
+            pm2 restart dotos_api
