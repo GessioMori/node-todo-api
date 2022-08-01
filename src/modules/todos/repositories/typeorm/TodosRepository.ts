@@ -2,7 +2,7 @@ import { ICreateTodoDTO } from "@modules/todos/dtos/ICreateTodoDTO";
 import { ITodo } from "@modules/todos/entities/ITodo";
 import { Todo } from "@modules/todos/entities/typeorm/Todo";
 import { AppDataSource } from "@shared/infra/typeorm";
-import { Repository } from "typeorm";
+import { Between, Repository } from "typeorm";
 import { ITodosRepository } from "../ITodosRepository";
 
 export class TodosRepository implements ITodosRepository {
@@ -44,5 +44,16 @@ export class TodosRepository implements ITodosRepository {
 
   async deleteById(id: string): Promise<void> {
     await this.repository.delete(id);
+  }
+
+  async findByDateInterval({ account_id, begin, end }): Promise<ITodo[]> {
+    const todos = await this.repository.findBy({
+      account_id,
+      created_at: Between(
+        begin ? new Date(begin) : new Date("01/01/2022"),
+        end ? new Date(end) : new Date("01/01/2040")
+      ),
+    });
+    return todos;
   }
 }
