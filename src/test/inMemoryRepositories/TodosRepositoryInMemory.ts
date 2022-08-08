@@ -1,4 +1,5 @@
 import { ICreateTodoDTO } from "@modules/todos/dtos/ICreateTodoDTO";
+import { IGetByDateIntervalDTO } from "@modules/todos/dtos/IGetByDateIntervalDTO";
 import { ITodo } from "@modules/todos/entities/ITodo";
 import { Todo } from "@modules/todos/entities/typeorm/Todo";
 import { ITodosRepository } from "@modules/todos/repositories/ITodosRepository";
@@ -16,6 +17,7 @@ export class TodosRepositoryInMemory implements ITodosRepository {
         content,
         due_to,
         is_completed,
+        created_at: new Date(),
       },
       id
     );
@@ -42,5 +44,28 @@ export class TodosRepositoryInMemory implements ITodosRepository {
 
   async deleteById(id: string): Promise<void> {
     this.items = this.items.filter((todo) => todo.id !== id);
+  }
+
+  async findByDateInterval({
+    account_id,
+    begin,
+    end,
+  }: IGetByDateIntervalDTO): Promise<ITodo[]> {
+    const beginDate = begin
+      ? new Date(begin).getTime()
+      : new Date("01/01/2022").getTime();
+    const endDate = end
+      ? new Date(end).getTime()
+      : new Date("01/01/2040").getTime();
+    const todosByDate = this.items.filter((todo) => {
+      const createdAt = todo.created_at.getTime();
+      return (
+        createdAt > beginDate &&
+        createdAt < endDate &&
+        todo.account_id === account_id
+      );
+    });
+
+    return todosByDate;
   }
 }

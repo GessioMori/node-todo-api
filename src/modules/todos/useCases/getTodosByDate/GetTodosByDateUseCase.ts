@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 import { IGetByDateIntervalDTO } from "@modules/todos/dtos/IGetByDateIntervalDTO";
 import { ITodosRepository } from "@modules/todos/repositories/ITodosRepository";
 import { mappedTodo, todoMapper } from "@utils/mappers/todoMapper";
