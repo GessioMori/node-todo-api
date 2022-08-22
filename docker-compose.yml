@@ -6,7 +6,7 @@ services:
     container_name: todos-pg-database
     restart: always
     ports:
-      - 5984:5984
+      - ${PG_PORT}:${PG_PORT}
     environment:
       - POSTGRES_USER=${PG_USER}
       - POSTGRES_PASSWORD=${PG_PASSWORD}
