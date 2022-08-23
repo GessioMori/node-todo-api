@@ -86,7 +86,7 @@
       "post": {
         "tags": ["Account"],
         "summary": "Login route",
-        "description": "Logs in using email and password and returns an access token and a refresh token.",
+        "description": "Logs in using email and password and returns an access token and a refresh token cookies.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -115,10 +115,21 @@
         "responses": {
           "200": {
             "description": "Succeded login.",
+            "headers": {
+              "Set-Cookie": {
+                "schema": {
+                  "type": "array",
+                  "example": [
+                    "jwt-access-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9. eyJpYXQiOjE2NjEyNTg5MTcsImV4cCI6MTY2MTI2MDExNywic3ViIjoiNTM1NTU0Y2EtYjM5Mi00MTc1LTliOGEtMDBlY2Y4MjY2MTY4In0. zmmqlxIE1BUz396X71hntqPXBE9dGEm6hC-fXFXlOdM; Domain=localhost; Path=/; Expires=Tue, 23 Aug 2022 13:08:37 GMT; HttpOnly; Secure; SameSite=Strict",
+                    "jwt-refresh-token=9de151da-b19c-45d6-b4d6-ff5da0725e74; Domain=localhost; Path=/account/refresh; Expires=Thu, 22 Sep 2022 12:48:37 GMT; HttpOnly; Secure; SameSite=Strict"
+                  ]
+                }
+              }
+            },
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/loginResponse"
+                "example": {
+                  "message": "Login succeded"
                 }
               }
             }
@@ -140,31 +151,26 @@
       "post": {
         "tags": ["Account"],
         "summary": "Refresh token route",
-        "description": "Sends a refresh token and, if valid, receives an access token and a new refresh token.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "refreshToken": {
-                    "type": "string"
-                  }
-                },
-                "example": {
-                  "refreshToken": "0d52a60e-39bd-4c22-b0cc-4904bdc92ba4"
-                }
-              }
-            }
-          }
-        },
+        "description": "Sends a refresh token via cookie and, if valid, receives an access token and a new refresh token.",
+        "security": [{ "cookieRefreshToken": [] }],
         "responses": {
           "200": {
-            "description": "Token refreshed. User receives an access token and a new refresh token.",
+            "description": "Token refreshed. User receives an access token and a new refresh token via cookie.",
+            "headers": {
+              "Set-Cookie": {
+                "schema": {
+                  "type": "array",
+                  "example": [
+                    "jwt-access-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9. eyJpYXQiOjE2NjEyNTg5MTcsImV4cCI6MTY2MTI2MDExNywic3ViIjoiNTM1NTU0Y2EtYjM5Mi00MTc1LTliOGEtMDBlY2Y4MjY2MTY4In0. zmmqlxIE1BUz396X71hntqPXBE9dGEm6hC-fXFXlOdM; Domain=localhost; Path=/; Expires=Tue, 23 Aug 2022 13:08:37 GMT; HttpOnly; Secure; SameSite=Strict",
+                    "jwt-refresh-token=9de151da-b19c-45d6-b4d6-ff5da0725e74; Domain=localhost; Path=/account/refresh; Expires=Thu, 22 Sep 2022 12:48:37 GMT; HttpOnly; Secure; SameSite=Strict"
+                  ]
+                }
+              }
+            },
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/definitions/refreshTokenResponse"
+                "example": {
+                  "message": "Tokens were refreshed"
                 }
               }
             }
@@ -296,7 +302,7 @@
         "tags": ["Todos"],
         "summary": "Todos creation",
         "description": "Creates a new todo.",
-        "security": [{ "bearerAuth": [] }],
+        "security": [{ "cookieAccessToken": [] }],
         "requestBody": {
           "content": {
             "application/json": {
@@ -353,7 +359,7 @@
         "tags": ["Todos"],
         "summary": "Gets todos.",
         "description": "Gets all todos an account owns.",
-        "security": [{ "bearerAuth": [] }],
+        "security": [{ "cookieAccessToken": [] }],
         "responses": {
           "200": {
             "description": "All todos received.",
@@ -397,7 +403,7 @@
         "tags": ["Todos"],
         "summary": "Gets an unique todo.",
         "description": "Gets a todo using its id.",
-        "security": [{ "bearerAuth": [] }],
+        "security": [{ "cookieAccessToken": [] }],
         "parameters": [
           {
             "name": "id",
@@ -485,7 +491,7 @@
         "tags": ["Todos"],
         "summary": "It updates an unique todo.",
         "description": "It updates a todo using its id, possibly changing its content, is_completed and/or due_to.",
-        "security": [{ "bearerAuth": [] }],
+        "security": [{ "cookieAccessToken": [] }],
         "parameters": [
           {
             "name": "id",
@@ -602,7 +608,7 @@
         "tags": ["Todos"],
         "summary": "Deletes an unique todo.",
         "description": "Deletes a todo using its id.",
-        "security": [{ "bearerAuth": [] }],
+        "security": [{ "cookieAccessToken": [] }],
         "parameters": [
           {
             "name": "id",
@@ -678,6 +684,74 @@
           }
         }
       }
+    },
+    "/todos/interval": {
+      "post": {
+        "tags": ["Todos"],
+        "summary": "Gets todos in a specific interval of time.",
+        "description": "Gets todos in a specific interval of time, sendind a start date and/or an end date",
+        "security": [{ "cookieAccessToken": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "begin": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "end": {
+                    "type": "string",
+                    "required": false
+                  }
+                },
+                "example": {
+                  "begin": "2022-10-07T23:00:44.961Z",
+                  "end": "2022-11-07T23:00:44.961Z"
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "Todos received.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/todosArray"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token not received, expired or invalid.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Token not received": {
+                    "value": {
+                      "message": "Token not received."
+                    }
+                  },
+                  "Token expired": {
+                    "value": {
+                      "message": "Expired token."
+                    }
+                  },
+                  "Invalid token": {
+                    "value": {
+                      "message": "Invalid token."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -739,10 +813,15 @@
   },
   "components": {
     "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
+      "cookieAccessToken": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "jwt-access-token"
+      },
+      "cookieRefreshToken": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "jwt-refresh-token"
       }
     }
   }

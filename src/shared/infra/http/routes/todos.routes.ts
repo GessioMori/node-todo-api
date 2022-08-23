@@ -18,7 +18,7 @@ const deleteTodoController = new DeleteTodoController();
 
 todosRoutes.post("/", authenticate, createTodoController.handle);
 todosRoutes.get("/", authenticate, getTodosController.handle);
-todosRoutes.get("/interval", authenticate, getTodosByDateController.handle);
+todosRoutes.post("/interval", authenticate, getTodosByDateController.handle);
 todosRoutes.get("/:id", authenticate, getTodoController.handle);
 todosRoutes.patch("/:id", authenticate, updateTodoController.handle);
 todosRoutes.delete("/:id", authenticate, deleteTodoController.handle);
