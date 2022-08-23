@@ -14,6 +14,7 @@ export class RefreshTokenUseCase {
   ) {}
 
   async execute(refreshTokenId: string): Promise<IRefreshTokenResponseDTO> {
+    
     if (!refreshTokenId || !validate(refreshTokenId)) {
       throw new AppError(
         "Refresh token not found, please authenticate again.",
