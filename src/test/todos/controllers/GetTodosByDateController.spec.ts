@@ -7,6 +7,7 @@ import request from "supertest";
 describe("Get todos by date controller", () => {
   let data1: ICreateAccountDTO, data2: ICreateAccountDTO;
   let loginResponse1, loginResponse2;
+  let cookie1: string, cookie2: string;
 
   beforeAll(async () => {
     await AppDataSource.initialize();
@@ -37,23 +38,30 @@ describe("Get todos by date controller", () => {
       password: data2.password,
     });
 
+    cookie1 = loginResponse1.headers["set-cookie"][0]
+      .split(";")[0]
+      .split("=")[1];
+    cookie2 = loginResponse2.headers["set-cookie"][0]
+      .split(";")[0]
+      .split("=")[1];
+
     const todo1CreationResponse = await request(app)
       .post("/todos/")
-      .set("Authorization", "Bearer " + loginResponse1.body.accessToken)
+      .set("Cookie", [`jwt-access-token=${cookie1}`])
       .send({
         content: "Test todo 1",
       });
 
     await request(app)
       .post("/todos/")
-      .set("Authorization", "Bearer " + loginResponse2.body.accessToken)
+      .set("Cookie", [`jwt-access-token=${cookie2}`])
       .send({
         content: "Test todo 2",
       });
 
     await request(app)
       .post("/todos/")
-      .set("Authorization", "Bearer " + loginResponse1.body.accessToken)
+      .set("Cookie", [`jwt-access-token=${cookie1}`])
       .send({
         content: "Test todo 3",
       });
@@ -71,7 +79,7 @@ describe("Get todos by date controller", () => {
   it("Should be able to retrieve only the todos the user is the owner.", async () => {
     const todosResponse = await request(app)
       .get("/todos/interval/")
-      .set("Authorization", "Bearer " + loginResponse1.body.accessToken)
+      .set("Cookie", [`jwt-access-token=${cookie1}`])
       .send({
         begin: "2020-01-08T18:35:11.253Z",
         end: "2022-12-08T18:35:11.253Z",
@@ -83,7 +91,7 @@ describe("Get todos by date controller", () => {
   it("Should receive todos without sending a begin date", async () => {
     const todosResponse = await request(app)
       .get("/todos/interval/")
-      .set("Authorization", "Bearer " + loginResponse1.body.accessToken)
+      .set("Cookie", [`jwt-access-token=${cookie1}`])
       .send({
         end: "2022-12-08T18:35:11.253Z",
       });
@@ -94,7 +102,7 @@ describe("Get todos by date controller", () => {
   it("Should receive todos without sending an end date", async () => {
     const todosResponse = await request(app)
       .get("/todos/interval/")
-      .set("Authorization", "Bearer " + loginResponse1.body.accessToken)
+      .set("Cookie", [`jwt-access-token=${cookie1}`])
       .send({
         begin: "2020-01-08T18:35:11.253Z",
       });
@@ -105,7 +113,7 @@ describe("Get todos by date controller", () => {
   it("Should receive todos between a proper interval", async () => {
     const todosResponse = await request(app)
       .get("/todos/interval/")
-      .set("Authorization", "Bearer " + loginResponse1.body.accessToken)
+      .set("Cookie", [`jwt-access-token=${cookie1}`])
       .send({
         begin: "2022-08-01T18:35:11.253Z",
         end: "2022-12-08T18:35:11.253Z",

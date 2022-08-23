@@ -11,10 +11,11 @@ import "@shared/containers/";
 import { ErrorHandler } from "@shared/infra/http/errors/ErrorHandler";
 import {
   createRateLimiter,
-  rateLimiter
+  rateLimiter,
 } from "@shared/infra/http/middlewares/rateLimiter";
 import { accountRoutes } from "@shared/infra/http/routes/accounts.routes";
 import { todosRoutes } from "@shared/infra/http/routes/todos.routes";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 
 dotenv.config();
@@ -26,11 +27,13 @@ if (process.env.NODE_ENV !== "test") {
   app.use(rateLimiter);
 }
 
-if (process.env.NODE_ENV === 'dev') {
-  app.use((req, res, next) => setTimeout(next, 1000))
+if (process.env.NODE_ENV === "dev") {
+  app.use((req, res, next) => setTimeout(next, 1000));
 }
 
 app.use(cors());
+
+app.use(cookieParser());
 
 app.use(express.json());
 

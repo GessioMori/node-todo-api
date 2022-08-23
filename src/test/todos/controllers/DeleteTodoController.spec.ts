@@ -7,6 +7,7 @@ import request from "supertest";
 describe("Delete todo controller", () => {
   let data1: ICreateAccountDTO, data2: ICreateAccountDTO;
   let loginResponse1, loginResponse2, todoCreationResponse;
+  let cookie1: string, cookie2: string;
 
   beforeAll(async () => {
     await AppDataSource.initialize();
@@ -37,9 +38,16 @@ describe("Delete todo controller", () => {
       password: data2.password,
     });
 
+    cookie1 = loginResponse1.headers["set-cookie"][0]
+      .split(";")[0]
+      .split("=")[1];
+    cookie2 = loginResponse2.headers["set-cookie"][0]
+      .split(";")[0]
+      .split("=")[1];
+
     todoCreationResponse = await request(app)
       .post("/todos/")
-      .set("Authorization", "Bearer " + loginResponse1.body.accessToken)
+      .set("Cookie", [`jwt-access-token=${cookie1}`])
       .send({
         content: "Test todo 1",
       });
@@ -53,7 +61,7 @@ describe("Delete todo controller", () => {
   it("Should not be able to delete a todo if the user is not the owner.", async () => {
     const todoResponse = await request(app)
       .delete("/todos/" + todoCreationResponse.body.id)
-      .set("Authorization", "Bearer " + loginResponse2.body.accessToken);
+      .set("Cookie", [`jwt-access-token=${cookie2}`]);
 
     expect(todoResponse.body.message).toEqual("Not allowed.");
   });
@@ -61,11 +69,11 @@ describe("Delete todo controller", () => {
   it("Should be able to delete a todo only if the user is the owner.", async () => {
     await request(app)
       .delete("/todos/" + todoCreationResponse.body.id)
-      .set("Authorization", "Bearer " + loginResponse1.body.accessToken);
+      .set("Cookie", [`jwt-access-token=${cookie1}`]);
 
     const todoResponse = await request(app)
       .get("/todos/" + todoCreationResponse.body.id)
-      .set("Authorization", "Bearer " + loginResponse1.body.accessToken);
+      .set("Cookie", [`jwt-access-token=${cookie1}`]);
 
     expect(todoResponse.body.message).toBe("Todo not found.");
   });

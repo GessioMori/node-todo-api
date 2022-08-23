@@ -11,13 +11,11 @@ export function authenticate(
   response: Response,
   next: NextFunction
 ) {
-  const authorizationHeader = request.headers.authorization;
+  const token = request.cookies["jwt-access-token"];
 
-  if (!authorizationHeader) {
+  if (!token) {
     throw new AppError("Token not received.", 401);
   }
-
-  const token = authorizationHeader.split(" ")[1];
 
   try {
     const { sub: account_id } = verify(

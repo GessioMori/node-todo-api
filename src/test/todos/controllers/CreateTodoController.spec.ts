@@ -7,6 +7,7 @@ import request from "supertest";
 describe("Create todo controller", () => {
   let data: ICreateAccountDTO;
   let loginResponse;
+  let cookie: string;
 
   beforeAll(async () => {
     await AppDataSource.initialize();
@@ -24,6 +25,8 @@ describe("Create todo controller", () => {
       email: data.email,
       password: data.password,
     });
+
+    cookie = loginResponse.headers["set-cookie"][0].split(";")[0].split("=")[1];
   });
 
   afterAll(async () => {
@@ -34,7 +37,7 @@ describe("Create todo controller", () => {
   it("Should be able to create a new todo", async () => {
     const todoResponse = await request(app)
       .post("/todos/")
-      .set("Authorization", "Bearer " + loginResponse.body.accessToken)
+      .set("Cookie", [`jwt-access-token=${cookie}`])
       .send({
         content: "Test todo",
         is_completed: false,
@@ -47,7 +50,7 @@ describe("Create todo controller", () => {
   it("Should be able to create a todo only with content", async () => {
     const todoResponse = await request(app)
       .post("/todos/")
-      .set("Authorization", "Bearer " + loginResponse.body.accessToken)
+      .set("Cookie", [`jwt-access-token=${cookie}`])
       .send({
         content: "Test todo 2",
       });
@@ -57,10 +60,7 @@ describe("Create todo controller", () => {
   it("Should not be able to create a todo with wrong credentials", async () => {
     const todoResponse = await request(app)
       .post("/todos/")
-      .set(
-        "Authorization",
-        "Bearer " + loginResponse.body.accessToken + "wrong"
-      )
+      .set("Cookie", [`jwt-access-token=${cookie}1`])
       .send({
         content: "Test todo 3",
       });

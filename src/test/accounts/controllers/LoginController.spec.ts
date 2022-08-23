@@ -27,8 +27,7 @@ describe("Login controller", () => {
       email: data.email,
       password: data.password,
     });
-    expect(loginResponse.body).toHaveProperty("accessToken");
-    expect(loginResponse.body).toHaveProperty("refreshToken");
+    expect(loginResponse.body.message).toEqual("Login succeded");
   });
   it("Should not be able to login with wrong password.", async () => {
     const loginResponse = await request(app)

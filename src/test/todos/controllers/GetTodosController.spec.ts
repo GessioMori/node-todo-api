@@ -8,6 +8,7 @@ import request from "supertest";
 describe("Get todos controller", () => {
   let data1: ICreateAccountDTO, data2: ICreateAccountDTO;
   let loginResponse1, loginResponse2, todoCreationResponse;
+  let cookie1: string, cookie2: string;
 
   beforeAll(async () => {
     await AppDataSource.initialize();
@@ -38,16 +39,23 @@ describe("Get todos controller", () => {
       password: data2.password,
     });
 
+    cookie1 = loginResponse1.headers["set-cookie"][0]
+      .split(";")[0]
+      .split("=")[1];
+    cookie2 = loginResponse2.headers["set-cookie"][0]
+      .split(";")[0]
+      .split("=")[1];
+
     todoCreationResponse = await request(app)
       .post("/todos/")
-      .set("Authorization", "Bearer " + loginResponse1.body.accessToken)
+      .set("Cookie", [`jwt-access-token=${cookie1}`])
       .send({
         content: "Test todo 1",
       });
 
     await request(app)
       .post("/todos/")
-      .set("Authorization", "Bearer " + loginResponse2.body.accessToken)
+      .set("Cookie", [`jwt-access-token=${cookie2}`])
       .send({
         content: "Test todo 2",
       });
@@ -61,7 +69,7 @@ describe("Get todos controller", () => {
   it("Should be able to retrieve the todos the user is the owner.", async () => {
     const todosResponse = await request(app)
       .get("/todos/")
-      .set("Authorization", "Bearer " + loginResponse1.body.accessToken);
+      .set("Cookie", [`jwt-access-token=${cookie1}`]);
 
     expect(todosResponse.body).toHaveLength(1);
     expect(todosResponse.body[0]).toEqual<ITodo>(todoCreationResponse.body);
