@@ -11,7 +11,8 @@ export class RefreshTokenController {
       .cookie("jwt-access-token", newTokens.accessToken, {
         expires: new Date(Date.now() + 20 * 60 * 1000),
         path: "/",
-        domain: "localhost",
+        domain:
+          process.env.NODE_ENV === "production" ? "dotos.tech" : "localhost",
         httpOnly: true,
         secure: true,
         sameSite: "strict",
@@ -19,7 +20,8 @@ export class RefreshTokenController {
       .cookie("jwt-refresh-token", newTokens.refreshToken, {
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         path: "/account/refresh",
-        domain: "localhost",
+        domain:
+          process.env.NODE_ENV === "production" ? "dotos.tech" : "localhost",
         httpOnly: true,
         secure: true,
         sameSite: "strict",
