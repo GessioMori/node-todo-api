@@ -15,19 +15,19 @@ export class LoginController {
         expires: new Date(Date.now() + 20 * 60 * 1000),
         path: "/",
         domain:
-          process.env.NODE_ENV === "production" ? "dotos.tech" : "localhost",
+          process.env.NODE_ENV === "production" ? process.env.PROD_DOMAIN : process.env.DEV_DOMAIN,
         httpOnly: true,
-        secure: true,
-        sameSite: "strict",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
       })
       .cookie("jwt-refresh-token", account.refreshToken, {
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         path: "/account/refresh",
         domain:
-          process.env.NODE_ENV === "production" ? "dotos.tech" : "localhost",
+          process.env.NODE_ENV === "production" ? process.env.PROD_DOMAIN : process.env.DEV_DOMAIN,
         httpOnly: true,
-        secure: true,
-        sameSite: "strict",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
       })
       .json({ message: "Login succeded" });
   }

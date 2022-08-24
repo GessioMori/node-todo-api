@@ -11,7 +11,7 @@ import "@shared/containers/";
 import { ErrorHandler } from "@shared/infra/http/errors/ErrorHandler";
 import {
   createRateLimiter,
-  rateLimiter,
+  rateLimiter
 } from "@shared/infra/http/middlewares/rateLimiter";
 import { accountRoutes } from "@shared/infra/http/routes/accounts.routes";
 import { todosRoutes } from "@shared/infra/http/routes/todos.routes";
@@ -28,10 +28,14 @@ if (process.env.NODE_ENV !== "test") {
 }
 
 if (process.env.NODE_ENV === "dev") {
-  app.use((req, res, next) => setTimeout(next, 1000));
+  app.use((req, res, next) => setTimeout(next, 100));
 }
 
-app.use(cors());
+const corsOptions = {
+  origin: process.env.NODE_ENV !== "prod" ? `http://${process.env.DEV_DOMAIN}:${process.env.DEV_PORT}` : process.env.PROD_DOMAIN,
+  credentials: true
+}
+app.use(cors(corsOptions));
 
 app.use(cookieParser());
 
