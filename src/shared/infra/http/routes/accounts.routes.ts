@@ -1,6 +1,7 @@
 import { ChangePasswordController } from "@modules/accounts/useCases/changePassword/ChangePasswordController";
 import { CreateAccountController } from "@modules/accounts/useCases/createAccount/CreateAccountController";
 import { LoginController } from "@modules/accounts/useCases/login/LoginController";
+import { LogoutController } from "@modules/accounts/useCases/logout/LogoutController";
 import { RecoverPasswordController } from "@modules/accounts/useCases/recoverPassword/RecoverPasswordController";
 import { RefreshTokenController } from "@modules/accounts/useCases/refreshToken/RefreshTokenController";
 import { Router } from "express";
@@ -9,12 +10,14 @@ const accountRoutes = Router();
 
 const createAccountController = new CreateAccountController();
 const loginController = new LoginController();
+const logoutController = new LogoutController();
 const refreshTokenController = new RefreshTokenController();
 const recoverPasswordController = new RecoverPasswordController();
 const changePasswordController = new ChangePasswordController();
 
 accountRoutes.post("/", createAccountController.handle);
 accountRoutes.post("/login", loginController.handle);
+accountRoutes.get("/logout", logoutController.handle);
 accountRoutes.post("/refresh", refreshTokenController.handle);
 accountRoutes.post("/recover-password", recoverPasswordController.handle);
 accountRoutes.post("/change-password/:token", changePasswordController.handle);
