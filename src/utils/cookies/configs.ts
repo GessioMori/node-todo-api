@@ -1,5 +1,5 @@
 export const accessTokenConfigs = {
-  maxAge: 20 * 60 * 1000,
+  maxAge: 20 * 60 *  1000,
   path: "/",
   domain:
     process.env.NODE_ENV === "production"
