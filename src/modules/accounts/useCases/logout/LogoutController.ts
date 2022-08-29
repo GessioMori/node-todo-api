@@ -1,6 +1,5 @@
 import {
-  accessTokenConfigs,
-  refreshTokenConfigs,
+  refreshTokenConfigs
 } from "@utils/cookies/configs";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
@@ -13,7 +12,6 @@ export class LogoutController {
     await logoutUseCase.execute(refreshToken);
 
     return response
-      .clearCookie("jwt-access-token", accessTokenConfigs)
       .clearCookie("jwt-refresh-token", refreshTokenConfigs)
       .json({ message: "Logged out." });
   }

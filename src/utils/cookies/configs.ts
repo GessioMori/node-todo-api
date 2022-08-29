@@ -1,5 +1,5 @@
 export const accessTokenConfigs = {
-  expires: new Date(Date.now() + 20 * 60 * 1000),
+  maxAge: 20 * 60 * 1000,
   path: "/",
   domain:
     process.env.NODE_ENV === "production"
@@ -8,10 +8,11 @@ export const accessTokenConfigs = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
   sameSite: "lax",
+  overwrite: true
 } as const;
 
 export const refreshTokenConfigs = {
-  expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+  maxAge: 30 * 24 * 60 * 60 * 1000,
   path: "/account",
   domain:
     process.env.NODE_ENV === "production"
@@ -20,4 +21,5 @@ export const refreshTokenConfigs = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
   sameSite: "lax",
+  overwrite: true
 } as const;
