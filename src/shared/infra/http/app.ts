@@ -32,7 +32,7 @@ if (process.env.NODE_ENV === "dev") {
 }
 
 const corsOptions = {
-  origin: process.env.NODE_ENV !== "prod" ? `http://${process.env.DEV_DOMAIN}:${process.env.DEV_PORT}` : process.env.PROD_DOMAIN,
+  origin: process.env.NODE_ENV !== "production" ? `http://${process.env.DEV_DOMAIN}:${process.env.DEV_PORT}` : process.env.PROD_DOMAIN,
   credentials: true
 }
 app.use(cors(corsOptions));
