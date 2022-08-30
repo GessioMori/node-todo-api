@@ -43,7 +43,7 @@ export function recoverPasswordEmailModel(name: string, token: string): string {
         <p>Hello, ${name}! Click on the button to recover your password. If you did not request this, please ignore.</p>
         <a href="${process.env.NODE_ENV === "production"
         ? process.env.PROD_DOMAIN
-        : `http://${process.env.DEV_DOMAIN}:${process.env.DEV_PORT}`}/changepassword/${token}"><button class="btn">Recover password</button></a>
+        : `https://app.${process.env.DEV_DOMAIN}:${process.env.DEV_PORT}`}/changepassword/${token}"><button class="btn">Recover password</button></a>
         <p class="subtext">The link above is valid for 2 hours.</p>
       </div>
     </body>
