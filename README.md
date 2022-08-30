@@ -13,6 +13,7 @@ This API is hosted in AWS EC2.
 ### Features:
 
 - PostgreSQL for the database and Redis for the rate limiter.
+- CI/CL with GitHub actions.
 - Documentation with Swagger.
 - Containerization with Docker.
 - Unit and integration tests with jest and supertest.
